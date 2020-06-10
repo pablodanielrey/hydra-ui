@@ -1,0 +1,50 @@
+<div class="pantalla">
+
+    <mat-card class="card animacionLateral">
+
+        <form *ngIf='mostrar' [formGroup]='credenciales' (ngSubmit)='acceder()' class="formulario">
+
+            <img class="imgLogo" src="/assets/img/logo_fce.png">
+            
+            <mat-form-field appearance="outline">
+                <mat-label>Usuario</mat-label>
+                <input matInput placeholder="DNI o Pasaporte sin puntos" formControlName='usuario'>
+                <mat-error *ngIf="credenciales.get('usuario').hasError('minlength')">Usuario inexistente</mat-error>
+                <mat-error *ngIf="credenciales.get('usuario').hasError('required')">Ingrese su usuario (DNI o Pasaporte sin puntos)</mat-error>
+                <mat-error *ngIf="credenciales.get('usuario').hasError('pattern')">Caractéres no permitidos</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Contraseña</mat-label>
+                <input *ngIf='!ver_clave' matInput pvblaceholder="Contraseña" formControlName='clave' type="password">
+                <input *ngIf='ver_clave' matInput pvblaceholder="Contraseña" formControlName='clave' type="text">
+                <mat-error *ngIf="credenciales.get('clave').hasError('minlength')">Contraseña invalida</mat-error>
+                <mat-error *ngIf="credenciales.get('clave').hasError('required')">Ingrese su contraseña</mat-error>
+                <button type='button' mat-icon-button matSuffix (click)="ver_clave = !ver_clave" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="ver_clave">
+                    <mat-icon>{{ver_clave ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <button *ngIf='!accediendo' class="btnAcceder" mat-flat-button color="primary" type='submit'>ACCEDER</button>
+            <button *ngIf='accediendo' class="btnAcceder" mat-flat-button color="primary" type='submit'><mat-progress-bar mode="indeterminate" class="spiner" ></mat-progress-bar></button>
+
+            <!-- <mat-checkbox class="check">Recordar mis datos</mat-checkbox> -->
+
+            <div class="contenedorDivisor"></div>
+
+            <a mat-button class="btnPassword" routerLink="/recover/register"><i class="material-icons iconoPass">lock_open </i>  Olvidé mi contraseña </a> 
+
+        </form>
+    
+    </mat-card>
+
+    <div class="footer animacionLateral"> DiTeSI | Dirección de Tecnologías y Sistemas Informáticos</div>
+    <div class="version animacionLateral">
+        <div><i class="material-icons">bubble_chart</i></div>
+        <div>Versión {{environment.version}}</div>  
+    </div>
+
+
+</div>
+
+<div *ngIf='error'>{{error}}</div>

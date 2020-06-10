@@ -1,0 +1,16 @@
+.pantalla {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100%;
+}
+
+.cargando {
+    width: 20%;
+}
+
+.spiner {
+   width: 100%;
+   opacity: .5;
+
+}

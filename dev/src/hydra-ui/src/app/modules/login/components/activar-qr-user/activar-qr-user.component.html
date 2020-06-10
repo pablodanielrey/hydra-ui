@@ -1,0 +1,8 @@
+<p>activando código qr</p>
+<div *ngIf='(code$ | async) as code'>código: {{code}}</div>
+<div *ngIf='device'>dispositivo: {{device}}</div>
+<div *ngIf='hash'>hash: {{hash}}</div>
+
+<div *ngIf='error'>error:{{error}}</div>
+
+<button (click)='activar()'>Activar</button>
