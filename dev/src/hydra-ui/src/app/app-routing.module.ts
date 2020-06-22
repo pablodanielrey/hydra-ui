@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UpdatingRoutingModule } from './modules/updating/updating-routing.module';
+import { ConsentRoutingModule } from './modules/consent/consent-routing.module';
+import { ErrorRoutingModule } from './modules/error/error-routing.module';
+import { LoginRoutingModule } from './modules/login/login-routing.module';
 
 
-const routes: Routes = [
-  { path: '**', redirectTo: '/updating' }
-];
+const routes: Routes = [ ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
-    UpdatingRoutingModule
+    ConsentRoutingModule,
+    ErrorRoutingModule,
+    LoginRoutingModule
   ],
   exports: [RouterModule]
 })

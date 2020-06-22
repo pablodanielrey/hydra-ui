@@ -6,18 +6,22 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { UpdatingModule } from './modules/updating/updating.module';
+import { ConsentModule } from './modules/consent/consent.module';
+import { ErrorModule } from './modules/error/error.module';
+import { LoginModule } from './modules/login/login.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ConsentModule,
+    ErrorModule,
+    LoginModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    UpdatingModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
