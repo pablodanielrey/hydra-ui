@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { VerificarChallengeComponent } from './components/verificar-challenge/verificar-challenge.component';
@@ -13,6 +14,7 @@ import { IngresarCredencialesComponent } from './components/ingresar-credenciale
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     LoginRoutingModule,
     LoginMaterialModule
   ]
