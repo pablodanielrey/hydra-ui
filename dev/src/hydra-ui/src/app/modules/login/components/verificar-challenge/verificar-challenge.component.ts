@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+
 import { DOCUMENT } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -38,24 +39,19 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
     )
   }
 
-  handleError(error) {
+
+  handleError(error, c): Observable<any> {
     console.log(error);
-    let message = '';
-    if (error instanceof Error) {
-      message = error.message ? error.message : error.toString();
-    } else if (error instanceof HttpErrorResponse) {
-      message = error.statusText;
-    }
-    if (message == null || message == '') {
-      message = error.toString();
-    }
-    this.router.navigate([`/error/${message}`]).then(v => console.log('navegación exitosa'));
+    error.message = error.name + ': ' + error.message;
+    throw error;
   }
 
   ngOnInit() {
     this.mensaje = 'Verificando Dispositivo';
     this.subs.push(
-      this.login_challenge$.subscribe(r => {
+      this.login_challenge$.pipe(
+        catchError(this.handleError)
+      ).subscribe(r => {
         this.mensaje = 'Analizando Requerimiento';
         let c = r.response;
         try {
@@ -75,7 +71,8 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
         }
       },
       e => {
-        this.handleError(e);
+        let message = e.message;
+        this.router.navigate([`/error/${message}`]);
       })
     )
   }

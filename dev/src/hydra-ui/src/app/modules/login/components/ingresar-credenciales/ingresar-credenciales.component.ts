@@ -6,6 +6,7 @@ import { of, Observable, combineLatest } from 'rxjs';
 import { switchMap, map, tap, catchError } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -54,16 +55,8 @@ export class IngresarCredencialesComponent implements OnInit, OnDestroy {
 
 
   handleError(error, c): Observable<any> {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      error.message = error.error.message;
-    } else {
-      // error retornado por httpClient cuando no se conecta al servidor.
-      if (error.status == 0) {
-        error.message = 'Servidor no accesible';
-      }
-    }
+    console.log(error);
+    error.message = error.name + ': ' + error.message;
     throw error;
   }
 
@@ -91,14 +84,8 @@ export class IngresarCredencialesComponent implements OnInit, OnDestroy {
       let redirect_url = c['redirect_to'];
       this.document.location.href = redirect_url;
     }, e => {
-      if (e.status !== 'undefined' && e.status == 401) {
-        let redirect_url = e.error;
-        this.document.location.href = redirect_url;
-      } else {
-        let message = e.message;
-        console.log(e);
-        this.router.navigate([`/error/${message}`]);
-      }
+      let message = e.message;
+      this.router.navigate([`/error/${message}`]);
     }));
 
   }
