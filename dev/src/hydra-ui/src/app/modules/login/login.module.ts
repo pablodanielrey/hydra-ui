@@ -6,11 +6,13 @@ import { LoginRoutingModule } from './login-routing.module';
 import { VerificarChallengeComponent } from './components/verificar-challenge/verificar-challenge.component';
 import { LoginMaterialModule } from './login-material.module';
 import { IngresarCredencialesComponent } from './components/ingresar-credenciales/ingresar-credenciales.component';
+import { LoginComponent } from './login.component';
 
 @NgModule({
   declarations: [
     VerificarChallengeComponent,
-    IngresarCredencialesComponent,  
+    IngresarCredencialesComponent,
+    LoginComponent,  
   ],
   imports: [
     CommonModule,

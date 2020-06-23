@@ -7,23 +7,29 @@
 
             <div class="mensaje">SE PRODUJO UN</div>
             <div class="mensaje"><b>ERROR</b></div>
-            <div class="mensaje">INESPERADO</div>
+            <div class="mensaje">{{message$ | async}}</div>
                
 
             <div class="contenedorDivisor"></div>
 
 
-            <div class="mensaje2">Por favor intente</div>
-            <div class="mensaje2">nuevamente <b>más tarde</b>...</div>
+            <div class="mensaje2">Si el error persiste por favor comunicarse con:</div>
+            <div class="correo"><a href="mailto:desarrollo@econo.unlp.edu.ar">desarrollo@econo.unlp.edu.ar</a></div>
 
 
+            <!-- 
             <div class="redireccion">...</div>
-            <mat-progress-bar mode="indeterminate" class="spiner" ></mat-progress-bar>
+            <mat-progress-bar mode="indeterminate" class="spiner" ></mat-progress-bar> 
+            -->
 
         </div>
             
     </mat-card>
             
     <div class="footer animacionLateral"> DiTeSI | Dirección de Tecnologías y Sistemas Informáticos</div>
-   
+    <div class="version animacionLateral">
+        <div><i class="material-icons">bubble_chart</i></div>
+        <div>Versión {{version}}</div>  
+    </div>
+
  </div>

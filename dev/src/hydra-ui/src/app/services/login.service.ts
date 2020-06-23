@@ -38,7 +38,6 @@ export class LoginService {
     return of(null);
   }
 
-
   login(usuario:string, clave:string, device_id:string, challenge:string): Observable<Response> {
     let url = `${this.url}/login`;
 
