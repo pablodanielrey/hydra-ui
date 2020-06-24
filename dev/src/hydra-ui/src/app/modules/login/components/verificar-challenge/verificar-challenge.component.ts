@@ -71,7 +71,7 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
         }
       },
       e => {
-        let message = e.message;
+        let message = encodeURIComponent(e.message);
         this.router.navigate([`/error/${message}`]);
       })
     )
