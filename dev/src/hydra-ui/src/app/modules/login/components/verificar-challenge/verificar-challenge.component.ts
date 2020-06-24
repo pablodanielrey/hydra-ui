@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
+import { LoginMockService } from 'src/app/services/login-mock.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -7,6 +8,13 @@ import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+
+
+interface ErrorInterno {
+  message: string,
+  data: string
+}
+
 
 @Component({
   selector: 'app-verificar-challenge',
@@ -28,7 +36,7 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
   challenge$: Observable<string>;
   login_challenge$: Observable<any>;
 
-  constructor(private service:LoginService,
+  constructor(private service:LoginMockService,
               private router:Router, 
               private route:ActivatedRoute,
               @Inject(DOCUMENT) private document: any) { 
@@ -41,8 +49,25 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
 
 
   handleError(error, c): Observable<any> {
+
+    let r : ErrorInterno = {
+      message: '',
+      data: ''
+    }
+
+    throw r;
+
+    let emessage = '';
+    if (error instanceof HttpErrorResponse) {
+      emessage = error.name + ': ' + error.status + ': ' + error.statusText + ': ' + error.url
+    }
+
+    if (error instanceof Error) {
+      emessage = error.name + ': ' + error.message;
+    }
     console.log(error);
-    error.message = error.name + ': ' + error.message;
+
+    error.message = emessage;
     throw error;
   }
 
@@ -62,12 +87,18 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
           } else {
             // el usuario tiene que loguearse.
             let challenge = c['challenge'];
-            this.router.navigate([`/login/login/${challenge}`]);
+            //this.router.navigate([`/login/login/${challenge}`]);
+            let message = 'Un error';
+            this.router.navigate([`/error/${message}`]);
           }
         } catch(e) {
-          console.log(e);
-          let message = 'Formato de retorno incorrecto';
-          this.router.navigate([`/error/${message}`]).then(v => console.log('navegación exitosa'));
+
+          //console.log(e);
+          //let message = e.message;
+
+          let c = atob(e);
+
+          this.router.navigate([`/error/${c}`]).then(v => console.log('navegación exitosa'));
         }
       },
       e => {
