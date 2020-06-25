@@ -4,6 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
+interface ErrorInterno {
+  message: string,
+  data: any
+}
+
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
@@ -11,25 +16,43 @@ import { environment } from 'src/environments/environment';
 })
 export class ErrorComponent implements OnInit {
 
-  errorData: any;
   version: String;
+  error$: Observable<any>;
   message$: Observable<String>;
-  qrCode$: Observable<String>;
+  data$: Observable<String>;
 
   constructor(private route:ActivatedRoute) {
     this.version = environment.version;
-    this.message$ = route.paramMap.pipe(
+
+    this.error$ = route.paramMap.pipe(
       map(params => params.get('message')),
-      map(message => (message == null) ? '' : message)      
+      map(error => {
+        if (error == '') {
+          let res : ErrorInterno = {
+            message: '',
+            data: ''
+          }
+          return res
+        };
+        let tmp = JSON.parse(atob(error));
+        let res : ErrorInterno = {
+          message: tmp.message,
+          data: this._add_hardware_data(tmp.data)
+        };
+        return res;
+      })
+    );
+
+    this.message$ = this.error$.pipe(
+      map(e => e.message)
     )
-    this.qrCode$ = this.message$.pipe(
-      map(m => m)
+
+    this.data$ = this.error$.pipe(
+      map(e => e.data),
     );
   }
 
-  ngOnInit() {
-    this.qrCode$.subscribe(c => this.errorData = this._add_hardware_data(c));
-  }
+  ngOnInit() { }
 
   _add_hardware_data(message) {
     let n = window.navigator;

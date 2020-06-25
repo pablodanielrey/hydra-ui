@@ -12,9 +12,8 @@ import { environment } from 'src/environments/environment';
 
 interface ErrorInterno {
   message: string,
-  data: string
+  data: any
 }
-
 
 @Component({
   selector: 'app-verificar-challenge',
@@ -48,27 +47,27 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
   }
 
 
-  handleError(error, c): Observable<any> {
+  handleError(error): Observable<any> {
+    let message = '';
+    let data = '';
 
-    let r : ErrorInterno = {
-      message: '',
-      data: ''
-    }
-
-    throw r;
-
-    let emessage = '';
     if (error instanceof HttpErrorResponse) {
-      emessage = error.name + ': ' + error.status + ': ' + error.statusText + ': ' + error.url
+      message = error.error;
+      data = 'Error Name: ' + error.name + ' Status: ' + error.status + ' Error: ' + error.error + ' StatusText: ' + error.statusText + ' URL: ' + error.url;
+      console.log(data);
     }
 
     if (error instanceof Error) {
-      emessage = error.name + ': ' + error.message;
+      message = error.message;
+      data = error.name + ': ' + error.message
     }
-    console.log(error);
-
-    error.message = emessage;
-    throw error;
+    
+    let r : ErrorInterno = {
+      message: message,
+      data: data
+    }
+    
+    throw r;
   }
 
   ngOnInit() {
@@ -87,22 +86,15 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
           } else {
             // el usuario tiene que loguearse.
             let challenge = c['challenge'];
-            //this.router.navigate([`/login/login/${challenge}`]);
-            let message = 'Un error';
-            this.router.navigate([`/error/${message}`]);
+            this.router.navigate([`/login/login/${challenge}`]);
           }
         } catch(e) {
-
-          //console.log(e);
-          //let message = e.message;
-
-          let c = atob(e);
-
-          this.router.navigate([`/error/${c}`]).then(v => console.log('navegación exitosa'));
+          let message = btoa(JSON.stringify(e));
+          this.router.navigate([`/error/${message}`]);
         }
       },
       e => {
-        let message = encodeURIComponent(e.message);
+        let message = btoa(JSON.stringify(e));
         this.router.navigate([`/error/${message}`]);
       })
     )
