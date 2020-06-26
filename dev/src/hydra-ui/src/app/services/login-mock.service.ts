@@ -38,7 +38,7 @@ export class LoginMockService {
   get_login_challenge(device_hash:string, challenge:string): Observable<any> {
     //let herror = new HttpErrorResponse({ error: 'migue ve gente rota en youtube', status: 503 });
     //throw herror;
-    
+    //throw(Error('Algo'));
     let ret409 : Response = {
       status: 409,
       response: 'Id ya usado'

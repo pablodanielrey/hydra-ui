@@ -50,7 +50,6 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
   handleError(error): Observable<any> {
     let message = '';
     let data = '';
-
     if (error instanceof HttpErrorResponse) {
       if (error.status == 0){
         message = 'Servidor no accesible';
@@ -58,11 +57,10 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
         message = error.error;
       }      
       data = 'Error Name: ' + error.name + ' Status: ' + error.status + ' Error: ' + error.error + ' StatusText: ' + error.statusText + ' URL: ' + error.url;
-    }
-    if (error instanceof Error) {
+    }else{
       message = error.message;
-      data = 'Error Name: ' + error.name + ' Message: ' + error.message
-    }    
+      data = 'Error Name: ' + error.name + ' Message: ' + error.message;     
+    }
     let r : ErrorInterno = {
       message: message,
       data: data
