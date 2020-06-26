@@ -29,7 +29,6 @@ export class LoginService {
 
   login(usuario:string, clave:string, device_id:string, challenge:string): Observable<Response> {
     let url = `${this.url}/login`;
-
     let data = {
       user: usuario,
       password: clave,
@@ -44,7 +43,7 @@ export class LoginService {
             let r : Response = {
               status: 201,
               response: {
-                'redirect_to': e.error.message
+                'redirect_to': e.error
               }
             };
             return of(r);

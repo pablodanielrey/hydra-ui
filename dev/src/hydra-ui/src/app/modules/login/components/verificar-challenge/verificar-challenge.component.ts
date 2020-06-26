@@ -35,7 +35,7 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
   challenge$: Observable<string>;
   login_challenge$: Observable<any>;
 
-  constructor(private service:LoginMockService,
+  constructor(private service:LoginService,
               private router:Router, 
               private route:ActivatedRoute,
               @Inject(DOCUMENT) private document: any) { 
@@ -52,21 +52,21 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
     let data = '';
 
     if (error instanceof HttpErrorResponse) {
-      message = error.error;
+      if (error.status == 0){
+        message = 'Servidor no accesible';
+      }else{
+        message = error.error;
+      }      
       data = 'Error Name: ' + error.name + ' Status: ' + error.status + ' Error: ' + error.error + ' StatusText: ' + error.statusText + ' URL: ' + error.url;
-      console.log(data);
     }
-
     if (error instanceof Error) {
       message = error.message;
-      data = error.name + ': ' + error.message
-    }
-    
+      data = 'Error Name: ' + error.name + ' Message: ' + error.message
+    }    
     let r : ErrorInterno = {
       message: message,
       data: data
-    }
-    
+    } 
     throw r;
   }
 
@@ -93,7 +93,7 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
           this.router.navigate([`/error/${message}`]);
         }
       },
-      e => {
+      e => { 
         let message = btoa(JSON.stringify(e));
         this.router.navigate([`/error/${message}`]);
       })

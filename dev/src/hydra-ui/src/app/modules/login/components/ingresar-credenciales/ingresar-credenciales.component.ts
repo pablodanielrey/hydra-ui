@@ -9,6 +9,11 @@ import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
+interface ErrorInterno {
+  message: string,
+  data: any
+}
+
 @Component({
   selector: 'app-ingresar-credenciales',
   templateUrl: './ingresar-credenciales.component.html',
@@ -54,10 +59,27 @@ export class IngresarCredencialesComponent implements OnInit, OnDestroy {
   }
 
 
-  handleError(error, c): Observable<any> {
-    console.log(error);
-    error.message = error.name + ': ' + error.message;
-    throw error;
+  handleError(error): Observable<any> {
+    let message = '';
+    let data = '';
+
+    if (error instanceof HttpErrorResponse) {
+      if (error.status == 0){
+        message = 'Servidor no accesible';
+      }else{
+        message = error.error;
+      }      
+      data = 'Error Name: ' + error.name + ' Status: ' + error.status + ' Error: ' + error.error + ' StatusText: ' + error.statusText + ' URL: ' + error.url;
+    }
+    if (error instanceof Error) {
+      message = error.message;
+      data = 'Error Name: ' + error.name + ' Message: ' + error.message
+    }    
+    let r : ErrorInterno = {
+      message: message,
+      data: data
+    } 
+    throw r;
   }
 
   acceder() {
@@ -84,7 +106,7 @@ export class IngresarCredencialesComponent implements OnInit, OnDestroy {
       let redirect_url = c['redirect_to'];
       this.document.location.href = redirect_url;
     }, e => {
-      let message = e.message;
+      let message = btoa(JSON.stringify(e));
       this.router.navigate([`/error/${message}`]);
     }));
 
