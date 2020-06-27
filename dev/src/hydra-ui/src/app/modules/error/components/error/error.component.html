@@ -6,18 +6,19 @@
             <i class="material-icons material-icons-outlined icono">cloud_off</i>
 
             <div class="mensaje">SE PRODUJO UN</div>
+            <br>
             <div class="mensaje"><b>ERROR</b></div>
+            <br>
             <div class="mensaje">{{message$ | async}}</div>
             <div class="contenedorDivisor"></div>
             <div class="mensaje2">Si el error persiste por favor comunicarse con:</div>
             <br>
-            <div class="correo"><a href="mailto:desarrollo@econo.unlp.edu.ar?subject=Error%20de%20acceso&body={{data$ | async | json}}">desarrollo@econo.unlp.edu.ar</a></div>
-            <br>
-
-            <div *ngIf="(data$ | async) as qrCode">
-                <qrcode [qrdata]="qrCode | json" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
-            </div>
-           
+            <ng-container *ngIf="(data$ | async) as data">
+                <div class="correo"><a href="mailto:desarrollo@econo.unlp.edu.ar?subject=Error%20de%20acceso&body={{data | json}}">desarrollo@econo.unlp.edu.ar</a></div>
+                <br>
+                <qrcode [qrdata]="data | json" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+            </ng-container>
+            
             <!-- 
             <div class="redireccion">...</div>
             <mat-progress-bar mode="indeterminate" class="spiner" ></mat-progress-bar> 

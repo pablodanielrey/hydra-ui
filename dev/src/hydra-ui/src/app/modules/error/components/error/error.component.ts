@@ -48,7 +48,7 @@ export class ErrorComponent implements OnInit {
     )
 
     this.data$ = this.error$.pipe(
-      map(e => e.data),
+      map(e => e.data)
     );
   }
 

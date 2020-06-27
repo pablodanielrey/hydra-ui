@@ -101,9 +101,18 @@ export class IngresarCredencialesComponent implements OnInit, OnDestroy {
       tap(_ => this.accediendo = false),
       catchError(this.handleError)
     ).subscribe(r => {
-      let c = r.response;
-      let redirect_url = c['redirect_to'];
-      this.document.location.href = redirect_url;
+      try {
+        let c = r.response;
+        let redirect_url = c['redirect_to'];
+        this.document.location.href = redirect_url;
+      }catch(e){
+        let r : ErrorInterno = {
+          message: e.message,
+          data: 'Error Name: ' + e.name + ' Message: ' + e.message
+        } 
+        let message = btoa(JSON.stringify(r));
+        this.router.navigate([`/error/${message}`]);
+      }
     }, e => {
       let message = btoa(JSON.stringify(e));
       this.router.navigate([`/error/${message}`]);

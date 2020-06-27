@@ -87,7 +87,11 @@ export class VerificarChallengeComponent implements OnInit, OnDestroy {
             this.router.navigate([`/login/login/${challenge}`]);
           }
         } catch(e) {
-          let message = btoa(JSON.stringify(e));
+          let r : ErrorInterno = {
+            message: e.message,
+            data: 'Error Name: ' + e.name + ' Message: ' + e.message
+          } 
+          let message = btoa(JSON.stringify(r));
           this.router.navigate([`/error/${message}`]);
         }
       },
