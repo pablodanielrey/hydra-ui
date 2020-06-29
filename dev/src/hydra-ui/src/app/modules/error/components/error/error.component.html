@@ -4,20 +4,26 @@
 
         <div class="formulario">
             <i class="material-icons material-icons-outlined icono">cloud_off</i>
-
-            <div class="mensaje">SE PRODUJO UN</div>
-            <br>
-            <div class="mensaje"><b>ERROR</b></div>
-            <br>
-            <div class="mensaje">{{message$ | async}}</div>
-            <div class="contenedorDivisor"></div>
-            <div class="mensaje2">Si el error persiste por favor comunicarse con:</div>
-            <br>
+            <div class="titulo">Se ha producido un <b>error</b>.</div>
+            <div class="mensaje">¡Volve a intentar!, y si el error persiste por favor reportanos el error para resolver el inconveniente lo antes posible.</div>
+            <!-- <div>{{message$ | async}}</div> -->
+            <div class="contenedorDivisor"></div><br>
+    
             <ng-container *ngIf="(data$ | async) as data">
+                <!-- EL BOTON SE VE SOLO EN CELULAR -->
+                <a mat-raised-button color="primary" class="boton" href="mailto:desarrollo@econo.unlp.edu.ar?subject=Error%20de%20acceso&body={{data | json}}">REPORTAR ERROR</a>
+                <!-- PARA PC -->
+                <div class="contenedorQR">
+                    <div class="mensajeQR">Escanea el código QR con tu celular para reportar el error</div>
+                    <qrcode [qrdata]="data | json" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                </div>
+            </ng-container>
+
+            <!-- <ng-container *ngIf="(data$ | async) as data">
                 <div class="correo"><a href="mailto:desarrollo@econo.unlp.edu.ar?subject=Error%20de%20acceso&body={{data | json}}">desarrollo@econo.unlp.edu.ar</a></div>
                 <br>
                 <qrcode [qrdata]="data | json" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
-            </ng-container>
+            </ng-container> -->
             
             <!-- 
             <div class="redireccion">...</div>
@@ -28,10 +34,10 @@
             
     </mat-card>
             
-    <div class="footer animacionLateral"> DiTeSI | Dirección de Tecnologías y Sistemas Informáticos</div>
+    <!-- <div class="footer animacionLateral"> DiTeSI | Dirección de Tecnologías y Sistemas Informáticos</div>
     <div class="version animacionLateral">
         <div><i class="material-icons">bubble_chart</i></div>
         <div>Versión {{version}}</div>  
-    </div>
+    </div> -->
 
  </div>

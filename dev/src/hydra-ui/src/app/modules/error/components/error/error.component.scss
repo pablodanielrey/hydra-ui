@@ -22,7 +22,7 @@
   }
   
   .card {
-    min-height: 512px;
+    // min-height: 512px;
     width: 400px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -73,7 +73,7 @@
   
   
   .contenedorDivisor {
-    margin: 15px 0 15px 0;
+    margin: 20px 0 0 0;
     border-top: 1px solid #E0E0E0;
   }
 
@@ -84,20 +84,46 @@
     margin: 0 auto;  
     text-align: center; 
     margin-top: -20px;
+    @media screen and (max-width: 768px){
+      font-size: 100px;
+
+    }
   }
 
 
+
+  .titulo {
+      font-size: 25px;
+      text-align: center;
+      margin: 5px 0 10px 0; 
+
+  }
 
   .mensaje {
-      font-size: 30px;
-      text-align: center; 
-
-  }
-
-  .mensaje2 {
-    font-size: 20px;
+    margin: 10px 0 0 0;
+    font-size: 14px;
     text-align: center; 
+    color: #4f4f4f;
 
+}
+
+.contenedorQR {
+  @media screen and (max-width: 768px){
+    display: none;
+  }
+}
+
+.mensajeQR {
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 10px; 
+}
+
+.boton {
+  padding: 10px 0 10px 0;
+  @media screen and (min-width: 768px){
+    display: none;
+  }
 }
 
 .correo {
