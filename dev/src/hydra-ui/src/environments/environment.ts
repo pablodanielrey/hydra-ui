@@ -5,7 +5,13 @@
 export const environment = {
   production: false,
   loginApiUrl: 'http://localhost:10002/login/api/v1.0',
+  //footer
   version: '0.6.0',
+  desarrollo: 'DiTeSI',
+  desarrolloFull: 'Dirección de Tecnologías y Sistemas Informáticos',
+  desarrolloCorto: 'DiTeSI | FCE | UNLP',
+
+
 };
 /*
  * For easier debugging in development mode, you can import the following file

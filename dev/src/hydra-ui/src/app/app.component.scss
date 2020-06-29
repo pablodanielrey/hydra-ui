@@ -1,0 +1,52 @@
+.sistema {
+    height: 100%;
+}
+
+.pantallas {
+   height: calc(100% - 31px);
+   min-height: 450px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items:space-betewn;
+    background-color: #C2C2C2;
+    height: 31px;
+    font-size: 11px;
+    padding: 0 20px 0 20px;
+    @media screen and (max-width: 768px){
+        background-color: #EAEAEA;
+    }
+    // @media screen and (max-height: 300px){
+    //     display: none;
+    // }
+}
+
+.informacion {
+    display: flex;
+    align-items: center;
+}
+
+.infoPC {
+    @media screen and (max-width: 768px){
+        display: none;
+      }
+}
+
+.infoCel {
+    @media screen and (min-width: 769px){
+        display: none;
+
+      }
+}
+
+.version {
+    display: flex;
+    align-items: center;
+}
+
+.iconoVersion {
+    color:grey;
+    margin: 0px 5px 0 0; 
+}
