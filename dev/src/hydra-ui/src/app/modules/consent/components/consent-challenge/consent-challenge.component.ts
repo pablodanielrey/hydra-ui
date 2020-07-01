@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
+import { LoginMockService } from 'src/app/services/login-mock.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { map, switchMap, catchError, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -22,7 +23,7 @@ export class ConsentChallengeComponent implements OnInit, OnDestroy {
   mensaje: string = '';
   challenge$: Observable<string>;
 
-  constructor(private service:LoginService, 
+  constructor(private service:LoginMockService, 
               private router:Router,
               private route:ActivatedRoute,
               @Inject(DOCUMENT) private document: any) { 
@@ -40,28 +41,15 @@ export class ConsentChallengeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     let accept$ = this.challenge$.pipe(
       tap(_ => this.accediendo = true),
       switchMap(c => this.service.get_consent_challenge(c)),
-      tap(_ => this.accediendo = false),
-      catchError(err => {
-        if (err.status == 0) {
-          err.error = 'Servidor no accesible';
-        }
-        throw err;
-      })
+      tap(_ => this.accediendo = false)
     );
-
     this.subs.push(accept$.subscribe(r => {
       let c = r.response;
       let redirect_url = c['redirect_to'];
       this.document.location.href = redirect_url;
-    }, e => {
-      let message = e.error;
-      console.log(e);
-      this.router.navigate([`/error/${message}`]);
     }));
   }
-
 }

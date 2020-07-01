@@ -12,6 +12,9 @@ import { ConsentModule } from './modules/consent/consent.module';
 import { ErrorModule } from './modules/error/error.module';
 import { LoginModule } from './modules/login/login.module';
 
+import { ErrorHandler } from '@angular/core';
+import { GlobalErrorHandler } from './global-error-handler';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +29,7 @@ import { LoginModule } from './modules/login/login.module';
     LoginModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
-  providers: [],
+  providers: [{provide: ErrorHandler, useClass: GlobalErrorHandler}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

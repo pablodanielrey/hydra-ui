@@ -27,10 +27,10 @@ export class ErrorComponent implements OnInit {
     this.error$ = route.paramMap.pipe(
       map(params => params.get('message')),
       map(error => {
-        if (error == '') {
+        if (error == null) {
           let res : ErrorInterno = {
-            message: '',
-            data: ''
+            message: 'Error de navegación.',
+            data: this._add_hardware_data('El usuario navegó o fue redirigido a la pantalla de error sin los paremetros correspondientes.')
           }
           return res
         };
